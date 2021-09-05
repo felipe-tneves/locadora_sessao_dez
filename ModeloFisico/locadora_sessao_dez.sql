@@ -1,0 +1,51 @@
+DROP DATABASE IF EXISTS LOCADORA_SESSAO_DEZ;
+CREATE DATABASE IF NOT EXISTS LOCADORA_SESSAO_DEZ;
+
+USE LOCADORA_SESSAO_DEZ;
+
+CREATE TABLE Ator(
+	idAtor INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    nacionalidade VARCHAR(40) NOT NULL
+);
+
+CREATE TABLE Midia(
+	idMidia INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    dvd INT NOT NULL,
+    bluray INT NOT NULL
+);
+
+CREATE TABLE Filme(
+	idFilme INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    idAtor INT,
+    idMidia INT,
+    titulo VARCHAR(50) NOT NULL,
+    genero VARCHAR(50) NOT NULL,
+    duracao FLOAT NOT NULL,
+    sinopse VARCHAR(200) NOT NULL,
+    FOREIGN KEY(idAtor) REFERENCES Ator(idAtor),
+    FOREIGN KEY(idMidia) REFERENCES Midia(idMidia)
+);
+
+CREATE TABLE Cliente(
+	idCliente INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    cpf INT(11) NOT NULL UNIQUE,
+    endereco VARCHAR(70) NOT NULL,
+    email VARCHAR(60) NOT NULL UNIQUE,
+    dataNascimento DATE NOT NULL,
+    numeroInscricao INT NOT NULL UNIQUE,
+    statusLocacao BOOLEAN NOT NULL
+);
+
+CREATE TABLE Locacao(
+	idLocacao INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    idFilme INT,
+    idCliente INT,
+    preco DECIMAL NOT NULL,
+    dataLocacao DATE NOT NULL,
+    dataDevolucao DATE NOT NULL,
+    FOREIGN KEY(idFilme) REFERENCES Filme(idFilme),
+    FOREIGN KEY(idCliente) REFERENCES Cliente(idCliente)
+);
+    
